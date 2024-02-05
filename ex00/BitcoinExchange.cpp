@@ -6,7 +6,7 @@
 /*   By: ychahbi <ychahbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 13:26:05 by ychahbi           #+#    #+#             */
-/*   Updated: 2024/01/28 05:41:28 by ychahbi          ###   ########.fr       */
+/*   Updated: 2024/02/05 18:08:07 by ychahbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,6 @@ bool    check_first_line(std::string firstLine)
     return (1);
 }
 
-bool    BitcoinExchange::fill_map(std::string str, int i)
-{
-    input.insert(std::pair<std::string, float>(str, i));
-    return (0);
-}
-
 bool dateVal(int year, int month, int day) {
     // Check if the year is within a valid range
     if (year < 1) {
@@ -117,38 +111,28 @@ void    BitcoinExchange::checkLine(std::string tmp)
 {
     std::istringstream line(tmp);
     std::vector<std::string> dava;
+    std::string              date[3];
 
-    std::cout << tmp << std::endl;
+    //std::cout << tmp << std::endl;
     while (std::getline(line, tmp, '|'))
         dava.push_back(tmp);
 
     if (dava.size() != 2)
-        fill_map("Error: bad input", -1);
+        std::cout << "Error: bad input => " << dava[0] << std::endl;
     else if (dava.size() == 2)
     {
-        //if (toFloat(dava[1]) >= INT_MAX)
-        //    fill_map("Error: too large a number.", -1);
-        //else if (toFloat(dava[1]) < 0)
-        //    fill_map("Error: not a positive number.", -1);
-        //else if (toFloat(dava[1]) < 0)
-        //    fill_map("Error: not a positive number.", -1);
-        //else if (toFloat(dava[1]) > 1000)
-        //    fill_map("Error: the price is more then 1K", -1);
-        //if (!checkYear(dava[0]))
-        //    fill_map("Error: bad input => " + dava[0], -1);
-        //else
-            fill_map(dava[0], toFloat(dava[1]));
-    }else
-        std::cout << "WTF" << std::endl;
-}
-
-void    BitcoinExchange::display()
-{
-    std::map<std::string, float>::iterator iter = input.begin();
-    while (iter != input.end())
-    {
-        std::cout << iter->first << " | " << iter->second << std::endl; 
-        iter++;
+        if (toFloat(dava[1]) >= INT_MAX)
+           std::cout << "Error: too large a number." << std::endl;
+        else if (toFloat(dava[1]) < 0)
+           std::cout << "Error: not a positive number." << std::endl;
+        else if (toFloat(dava[1]) < 0)
+           std::cout << "Error: not a positive number." << std::endl;
+        else if (toFloat(dava[1]) > 1000)
+           std::cout << "Error: the price is more then 1K" << std::endl;
+        else if (!checkYear(dava[0]))
+           std::cout << "Error: bad input => " << dava[0] << std::endl;
+        else
+            std::cout << dava[0] <<  dava[1] << std::endl;;
     }
 }
 
