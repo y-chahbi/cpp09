@@ -6,11 +6,12 @@
 /*   By: ychahbi <ychahbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 13:26:05 by ychahbi           #+#    #+#             */
-/*   Updated: 2024/02/05 18:08:07 by ychahbi          ###   ########.fr       */
+/*   Updated: 2024/02/07 18:03:04 by ychahbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "BitcoinExchange.hpp"
+#include <cstring>
 
 float BitcoinExchange::toFloat(const std::string &str) {
     std::stringstream sstr(str);
@@ -30,7 +31,7 @@ void    BitcoinExchange::getDataFromDataCSV()
     std::string tmp;
     std::getline(DataCSV_v, tmp);
     while (std::getline(DataCSV_v, tmp))
-        DataCSV.insert(std::pair<std::string, float>(tmp.substr(0, 9), toFloat(tmp.substr(11))));
+        DataCSV.insert(std::pair<std::string, float>(tmp.substr(0, 10), toFloat(tmp.substr(11))));
 }
 
 BitcoinExchange::BitcoinExchange()
@@ -53,7 +54,7 @@ void BitcoinExchange::error(std::string error)
 bool    check_first_line(std::string firstLine)
 {
     std::istringstream line(firstLine);
-    std::vector<std::string> date_val;
+    std::deque<std::string> date_val;
     while (std::getline(line, firstLine, ' '))
         date_val.push_back(firstLine);
 
@@ -98,7 +99,7 @@ bool dateVal(int year, int month, int day) {
 bool checkYear(std::string yearMD)
 {
     std::istringstream line(yearMD);
-    std::vector<int> date;
+    std::deque<int> date;
 
     while (std::getline(line, yearMD, '-'))
         date.push_back((BitcoinExchange::toFloat(yearMD)));
@@ -107,16 +108,36 @@ bool checkYear(std::string yearMD)
     return (dateVal(date[0], date[1], date[2]));
 }
 
+
+void    BitcoinExchange::getDataVal(std::string date, float value)
+{
+    float value_from_date = -1;
+    date.at(10) = '\0';
+
+    (DataCSV.find(date.c_str()) != DataCSV.end()) && (value_from_date = DataCSV[date.c_str()]);
+    if (value_from_date != -1)
+        std::cout << date << " => " <<  value << " = " << value * value_from_date << std::endl;
+    else
+    {
+        std::map<std::string, float>::iterator it;
+        it = DataCSV.lower_bound(date.c_str());
+        std::cout << date << " => " <<  value << " = " << value * double(it->second) << std::endl;
+    }
+
+}
+
 void    BitcoinExchange::checkLine(std::string tmp)
 {
     std::istringstream line(tmp);
-    std::vector<std::string> dava;
+    std::deque<std::string> dava;
     std::string              date[3];
 
-    //std::cout << tmp << std::endl;
     while (std::getline(line, tmp, '|'))
         dava.push_back(tmp);
 
+    std::istringstream num(dava[1]);
+    double dava_num;
+    num >> dava_num;
     if (dava.size() != 2)
         std::cout << "Error: bad input => " << dava[0] << std::endl;
     else if (dava.size() == 2)
@@ -132,7 +153,7 @@ void    BitcoinExchange::checkLine(std::string tmp)
         else if (!checkYear(dava[0]))
            std::cout << "Error: bad input => " << dava[0] << std::endl;
         else
-            std::cout << dava[0] <<  dava[1] << std::endl;;
+            getDataVal(dava[0], dava_num);
     }
 }
 
