@@ -6,7 +6,7 @@
 /*   By: ychahbi <ychahbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 10:59:08 by ychahbi           #+#    #+#             */
-/*   Updated: 2024/02/11 05:50:37 by ychahbi          ###   ########.fr       */
+/*   Updated: 2024/02/11 15:28:16 by ychahbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include <iostream>
 #include <vector>
+#include <deque>
 #include <string>
 #include <limits>
 #include <sstream>
@@ -31,8 +32,16 @@ class PmergeMe
         std::vector<int>                  pend;
         std::vector<int>                  Jacobsthal;
         std::vector<int>                  Combination;
-        std::clock_t                      start;
-        std::clock_t                      end;
+
+        std::deque<int>                  d_funkctro;
+        std::deque<std::pair<int, int> > d_pair;
+        std::deque<int>                  d_chain;
+        std::deque<int>                  d_pend;
+        std::deque<int>                  d_Jacobsthal;
+        std::deque<int>                  d_Combination;
+
+        std::clock_t                      dequ;
+        std::clock_t                      vect;
         int                               odd;
     public:
         PmergeMe();
