@@ -6,7 +6,7 @@
 /*   By: ychahbi <ychahbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 19:01:37 by ychahbi           #+#    #+#             */
-/*   Updated: 2024/02/08 10:36:56 by ychahbi          ###   ########.fr       */
+/*   Updated: 2024/02/14 22:34:52 by ychahbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,15 @@ bool isoper(char *opr, char c)
     return (0);
 }
 
-void    RPN::do_math(int b, int a, char sign)
+void    RPN::do_math()
 {
     int sum;
+    int a = vector.top();
+    vector.pop();
+    int b = vector.top();
+    char sn = sign.top();
 
-    switch (sign){
+    switch (sn){
         case '+':
             sum = a + b;
             break;
@@ -64,6 +68,7 @@ void    RPN::do_math(int b, int a, char sign)
             break;
     }
     vector.pop();
+    sign.pop();
     vector.push(sum);
 }
 
@@ -78,27 +83,19 @@ void    RPN::display()
 void    RPN::fill(){
     std::stringstream strm(this->string);
     std::string tmp;
-    char        opr[5] = "+-*/";
+    char        opr[] = "+-*/";
 
     while (std::getline(strm, tmp, ' '))
     {
-        if (tmp.size() < 2 && (isdigit(tmp.c_str()[0]) || isoper(opr, tmp.c_str()[0]))){
-            
-            if (!isoper(opr, tmp.c_str()[0]))
-                vector.push(tmp.c_str()[0] - 48);
-            else{
-                if (vector.size() == 2)
-                {
-                    int a = vector.top();
-                    vector.pop();
-                    do_math(a, vector.top(), tmp.c_str()[0]);
-                }
-                else
-                    error("Vector has INFF");
-            }
+        if (isoper(opr, tmp.c_str()[0]) && tmp.size() == 1)
+        {
+            sign.push(tmp.c_str()[0]);
+            do_math();
         }
+        else if (isdigit(tmp.c_str()[0]) && tmp.size() == 1)
+            vector.push(48 - tmp.c_str()[0]);
         else
-            error("args error!");
+            error("Error!");
     }
 }
 

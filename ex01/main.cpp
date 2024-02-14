@@ -6,7 +6,7 @@
 /*   By: ychahbi <ychahbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 19:01:40 by ychahbi           #+#    #+#             */
-/*   Updated: 2024/02/07 19:55:34 by ychahbi          ###   ########.fr       */
+/*   Updated: 2024/02/11 18:14:14 by ychahbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 int main(int ac, char **av)
 {
-    
-    if (ac == 2)
-        RPN rpn(av[1]);
-    else
+    if (ac != 2) {
         std::cout << "Error Args!" << std::endl;
+        return 1;
+    }
+
+    RPN rpn(av[1]);
 }

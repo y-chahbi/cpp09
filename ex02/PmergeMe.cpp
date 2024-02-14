@@ -6,7 +6,7 @@
 /*   By: ychahbi <ychahbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 10:59:09 by ychahbi           #+#    #+#             */
-/*   Updated: 2024/02/11 15:58:34 by ychahbi          ###   ########.fr       */
+/*   Updated: 2024/02/14 22:39:37 by ychahbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,16 @@ void    PmergeMe::parssing()
     {
         check(tmp.c_str());
         std::stringstream conv( tmp);
-        conv >> int_tmp;
-        if (int_tmp < INT_MAX)
+        if (conv >> int_tmp)
         {
-            funkctro.push_back(int_tmp);
-            d_funkctro.push_back(int_tmp);
+            if (int_tmp < INT_MAX)
+            {
+                funkctro.push_back(int_tmp);
+                d_funkctro.push_back(int_tmp);
+            }
+            else
+                error("Error in parssing!");
         }
-        else
-            error("Error in parssing!");
     }
 }
 
