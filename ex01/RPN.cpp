@@ -6,7 +6,7 @@
 /*   By: ychahbi <ychahbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 19:01:37 by ychahbi           #+#    #+#             */
-/*   Updated: 2024/02/14 22:34:52 by ychahbi          ###   ########.fr       */
+/*   Updated: 2024/02/15 19:19:08 by ychahbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,32 +44,33 @@ bool isoper(char *opr, char c)
 
 void    RPN::do_math()
 {
-    int sum;
-    int a = vector.top();
-    vector.pop();
-    int b = vector.top();
-    char sn = sign.top();
-
-    switch (sn){
-        case '+':
-            sum = a + b;
-            break;
-        case '-':
-            sum = a - b;
-            break;
-        case '*':
-            sum = a * b;
-            break;
-        case '/':
-            if (b != 0)
-                sum = a / b;
-            else
-                error("Can't divide on ZERO");
-            break;
-    }
-    vector.pop();
-    sign.pop();
-    vector.push(sum);
+    // int sum;
+    // int b = vector.top();
+    // vector.pop();
+    // int a = vector.top();
+    // char sn = sign.top();
+// 
+    // switch (sn){
+        // case '+':
+            // sum = a + b;
+            // break;
+        // case '-':
+            // sum = a - b;
+            // break;
+        // case '*':
+            // sum = a * b;
+            // break;
+        // case '/':
+            // if (b != 0)
+                // sum = a / b;
+            // else
+                // error("Can't divide on ZERO");
+            // break;
+    // }
+    // vector.pop();
+    // sign.pop();
+    // vector.push(sum);
+    
 }
 
 void    RPN::display()
@@ -88,15 +89,15 @@ void    RPN::fill(){
     while (std::getline(strm, tmp, ' '))
     {
         if (isoper(opr, tmp.c_str()[0]) && tmp.size() == 1)
-        {
             sign.push(tmp.c_str()[0]);
-            do_math();
-        }
         else if (isdigit(tmp.c_str()[0]) && tmp.size() == 1)
             vector.push(48 - tmp.c_str()[0]);
-        else
-            error("Error!");
+        //else
+        //    error("Error!");
+        //if (vector.size() > 1)
+        //    do_math();
     }
+    while (vector.top())
 }
 
 RPN::~RPN(){}
