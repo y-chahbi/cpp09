@@ -6,12 +6,13 @@
 /*   By: ychahbi <ychahbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 13:26:05 by ychahbi           #+#    #+#             */
-/*   Updated: 2024/02/15 10:37:22 by ychahbi          ###   ########.fr       */
+/*   Updated: 2024/02/15 17:46:15 by ychahbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "BitcoinExchange.hpp"
 #include <cstring>
+#include <algorithm>
 
 float BitcoinExchange::toFloat(const std::string& str) {
 
@@ -86,10 +87,10 @@ bool dateVal(int year, int month, int day) {
         return (false);
 
     bool year_v = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+    bool mounth_v = (month == 4 || month == 6 || month == 9 || month == 11);
     if (month == 2)
         (year_v) ? valid_day = 29 : valid_day = 28;
-
-    bool mounth_v = (month != 2) && (month == 4 || month == 6 || month == 9 || month == 11);
+    else
         (mounth_v) ? valid_day = 30 : valid_day = 31;
 
     if (day > valid_day)
@@ -129,10 +130,13 @@ void    BitcoinExchange::getDataVal(std::string date, float value)
     else
     {
         std::map<std::string, float>::iterator it;
-        it = DataCSV.lower_bound(date.c_str());
-        std::cout << date << " => " <<  value << " = " << value * double(it->second) << std::endl;
+        it = DataCSV.lower_bound(date);
+        std::cout << it->first << "|" << date.c_str() << std::endl;
+        if (it == DataCSV.begin() || ((--it) == DataCSV.begin()))
+            std::cout << "Error: bad input >> " << date << std::endl;
+        else
+            std::cout << it->first << " => " <<  value << " = " << value * double(it->second) << std::endl;
     }
-
 }
 
 void    parssing_val(const char* str)
