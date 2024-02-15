@@ -6,7 +6,7 @@
 /*   By: ychahbi <ychahbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 13:26:05 by ychahbi           #+#    #+#             */
-/*   Updated: 2024/02/14 18:20:24 by ychahbi          ###   ########.fr       */
+/*   Updated: 2024/02/15 10:37:22 by ychahbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,15 @@ void BitcoinExchange::error(std::string error)
 bool    check_first_line(std::string firstLine)
 {
     std::istringstream line(firstLine);
-    std::deque<std::string> date_val;
+    std::string         date_val[3];
+    int                 i = 0;
 
     while (std::getline(line, firstLine, ' '))
-        date_val.push_back(firstLine);
+        if (!firstLine.empty())
+            date_val[i++] = firstLine;
 
-    if (!(date_val[0] == "date" && date_val[1] == "|" && date_val[2] == "value"))
-        BitcoinExchange::error("Error: first line filed are not correct!");
+    if (i != 3 || !(date_val[0] == "date" && date_val[1] == "|" && date_val[2] == "value"))
+        BitcoinExchange::error("Error: first line filed or not correct!");
     return (1);
 }
 
@@ -99,7 +101,7 @@ bool dateVal(int year, int month, int day) {
 bool checkYear(std::string yearMD)
 {
     std::istringstream line(yearMD);
-    std::deque<int> date;
+    std::list<int> date;
 
     try{
         while (std::getline(line, yearMD, '-'))
@@ -111,7 +113,8 @@ bool checkYear(std::string yearMD)
     }
     if (date.size() < 3)
         return false;
-    return (dateVal(date[0], date[1], date[2]));
+    std::list<int>::iterator it = date.begin();
+    return (dateVal(*date.begin(), *(++it), *(++it)));
 }
 
 
@@ -156,16 +159,16 @@ void    BitcoinExchange::checkLine(std::string tmp)
     std::deque<std::string> dava;
     std::string              date[3];
 
-    while (std::getline(line, tmp, '|'))
+    while (!tmp.empty() && std::getline(line, tmp, '|'))
         dava.push_back(tmp);
-
-    std::istringstream num(dava[1]);
-    double dava_num;
-    num >> dava_num;
     if (dava.size() != 2)
-        std::cout << "Error: bad input => " << dava[0] << std::endl;
+        std::cout << "Error: bad input" << std::endl;
     else if (dava.size() == 2)
     {
+        std::istringstream num(dava[1]);
+        double dava_num;
+        if (!(num >> dava_num))
+            return;
         float myFloat;
         try { myFloat = toFloat(dava[1]); }
         catch(std::exception& e)
