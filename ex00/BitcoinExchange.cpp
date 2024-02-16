@@ -6,7 +6,7 @@
 /*   By: ychahbi <ychahbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 13:26:05 by ychahbi           #+#    #+#             */
-/*   Updated: 2024/02/15 17:46:15 by ychahbi          ###   ########.fr       */
+/*   Updated: 2024/02/16 21:37:23 by ychahbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,24 @@ void    BitcoinExchange::getDataFromDataCSV()
     {
         error("Reading Data error! " + (std::string)(e.what())); 
     }
+}
+
+BitcoinExchange::BitcoinExchange(const BitcoinExchange& Copy)
+{
+    *this = Copy;
+}
+
+BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange& Copy)
+{
+    std::map<std::string, float>::const_iterator iter = Copy.DataCSV.begin();
+    for (; iter != Copy.DataCSV.end(); iter++)
+    {
+        if (DataCSV.find(iter->first) == DataCSV.end())
+            DataCSV[iter->first] =  iter->second;
+        else
+            DataCSV[iter->first] =  iter->second;
+    }
+    return (*this);
 }
 
 BitcoinExchange::BitcoinExchange()
@@ -131,7 +149,6 @@ void    BitcoinExchange::getDataVal(std::string date, float value)
     {
         std::map<std::string, float>::iterator it;
         it = DataCSV.lower_bound(date);
-        std::cout << it->first << "|" << date.c_str() << std::endl;
         if (it == DataCSV.begin() || ((--it) == DataCSV.begin()))
             std::cout << "Error: bad input >> " << date << std::endl;
         else
@@ -171,8 +188,8 @@ void    BitcoinExchange::checkLine(std::string tmp)
     {
         std::istringstream num(dava[1]);
         double dava_num;
-        if (!(num >> dava_num))
-            return;
+        if (!(num >> dava_num)){
+            (std::cout << "Error: bad input => " << dava[0] << std::endl);return;}
         float myFloat;
         try { myFloat = toFloat(dava[1]); }
         catch(std::exception& e)
@@ -190,6 +207,9 @@ void    BitcoinExchange::checkLine(std::string tmp)
         else
             getDataVal(dava[0], myFloat);
     }
+    else
+        std::cout << "Error: bad input => " << dava[0] << std::endl;
+        
 }
 
 void    BitcoinExchange::fill(std::string file)

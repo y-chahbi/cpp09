@@ -6,7 +6,7 @@
 /*   By: ychahbi <ychahbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 19:01:35 by ychahbi           #+#    #+#             */
-/*   Updated: 2024/02/14 22:23:44 by ychahbi          ###   ########.fr       */
+/*   Updated: 2024/02/16 20:32:21 by ychahbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ class RPN
     public:
         RPN();
         RPN(std::string);
+        RPN(const RPN& Copy);
+        RPN& operator=(const RPN& Copy);
         void    set(std::string);
         void    fill();
         void    do_math();

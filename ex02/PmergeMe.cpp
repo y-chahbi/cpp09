@@ -6,7 +6,7 @@
 /*   By: ychahbi <ychahbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 10:59:09 by ychahbi           #+#    #+#             */
-/*   Updated: 2024/02/14 22:39:37 by ychahbi          ###   ########.fr       */
+/*   Updated: 2024/02/16 21:30:09 by ychahbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -349,6 +349,33 @@ PmergeMe::PmergeMe(std::string av)
     genCombination();
     binarySearch();
     displayChain();
+}
+
+PmergeMe::PmergeMe(const PmergeMe& Copy)
+{
+    *this = Copy;
+}
+
+PmergeMe& PmergeMe::operator=(const PmergeMe& Copy)
+{
+    this->av            = Copy.av;
+    this->funkctro      = Copy.funkctro;
+    this->pair          = Copy.pair;
+    this->chain         = Copy.chain;
+    this->pend          = Copy.pend;
+    this->Jacobsthal    = Copy.Jacobsthal;
+    this->Combination   = Copy.Combination;
+    this->d_funkctro    = Copy.d_funkctro;
+    this->d_pair        = Copy.d_pair;
+    this->d_chain       = Copy.d_chain;
+    this->d_pend        = Copy.d_pend;
+    this->d_Jacobsthal  = Copy.d_Jacobsthal;
+    this->d_Combination = Copy.d_Combination;
+    this->dequ          = Copy.dequ;
+    this->vect          = Copy.vect;
+    this->odd           = Copy.odd;
+
+    return (*this);
 }
 
 PmergeMe::~PmergeMe(){}

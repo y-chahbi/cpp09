@@ -6,7 +6,7 @@
 /*   By: ychahbi <ychahbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 19:01:37 by ychahbi           #+#    #+#             */
-/*   Updated: 2024/02/15 22:45:12 by ychahbi          ###   ########.fr       */
+/*   Updated: 2024/02/16 21:23:51 by ychahbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,28 @@ void    RPN::do_math()
 
 void    RPN::display()
 {
-    if (vector.size() == 1)
+    if (vector.size() == 1 && sign.size() == 0)
        std::cout << vector.top() << std::endl;
     else
         error("Invalid :( !");
+}
+
+RPN::RPN(const RPN& Copy)
+{
+    *this = Copy;
+}
+
+RPN& RPN::operator=(const RPN& Copy)
+{
+    std::stack<int>  it_int = Copy.vector;
+    std::stack<char> it_char = Copy.sign;
+
+    for (; it_int.size() != 0; it_int.pop())
+        this->vector.push(it_int.top());
+    for (; it_char.size() != 0; it_char.pop())
+        this->sign.push(it_char.top());
+    this->string = Copy.string;
+    return (*this);
 }
 
 void    RPN::fill(){

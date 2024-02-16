@@ -6,7 +6,7 @@
 /*   By: ychahbi <ychahbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 10:59:08 by ychahbi           #+#    #+#             */
-/*   Updated: 2024/02/11 15:28:16 by ychahbi          ###   ########.fr       */
+/*   Updated: 2024/02/16 21:25:38 by ychahbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ class PmergeMe
     public:
         PmergeMe();
         PmergeMe(std::string);
+        PmergeMe(const PmergeMe& Copy);
+        PmergeMe& operator=(const PmergeMe& Copy);
         static  void        error(std::string);
         void        set(std::string);
         void        parssing();

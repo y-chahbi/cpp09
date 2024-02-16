@@ -6,7 +6,7 @@
 /*   By: ychahbi <ychahbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 13:13:36 by ychahbi           #+#    #+#             */
-/*   Updated: 2024/02/15 10:12:46 by ychahbi          ###   ########.fr       */
+/*   Updated: 2024/02/16 19:53:22 by ychahbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ class BitcoinExchange
         BitcoinExchange(std::string);
         void                getDataFromDataCSV();
         void                fill(std::string);
+        BitcoinExchange(const BitcoinExchange& Copy);
+        BitcoinExchange& operator=(const BitcoinExchange& Copy);
         void                checkLine(std::string);
         static float        toFloat(const std::string &str);
         static void         error(std::string);
