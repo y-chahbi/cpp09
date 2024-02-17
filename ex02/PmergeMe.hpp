@@ -6,7 +6,7 @@
 /*   By: ychahbi <ychahbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 10:59:08 by ychahbi           #+#    #+#             */
-/*   Updated: 2024/02/16 21:25:38 by ychahbi          ###   ########.fr       */
+/*   Updated: 2024/02/17 10:04:50 by ychahbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <limits>
 #include <sstream>
 #include <ctime>
+#include <algorithm>
 
 
 class PmergeMe
