@@ -6,7 +6,7 @@
 /*   By: ychahbi <ychahbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 13:13:36 by ychahbi           #+#    #+#             */
-/*   Updated: 2024/02/16 19:53:22 by ychahbi          ###   ########.fr       */
+/*   Updated: 2024/02/17 12:48:39 by ychahbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@
 #include <map>
 #include <limits.h>
 #include <fstream>
-
+#include <cstring>
+#include <algorithm>
 
 class BitcoinExchange
 {

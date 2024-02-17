@@ -6,13 +6,11 @@
 /*   By: ychahbi <ychahbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 13:26:05 by ychahbi           #+#    #+#             */
-/*   Updated: 2024/02/16 21:37:23 by ychahbi          ###   ########.fr       */
+/*   Updated: 2024/02/17 15:00:53 by ychahbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "BitcoinExchange.hpp"
-#include <cstring>
-#include <algorithm>
 
 float BitcoinExchange::toFloat(const std::string& str) {
 
@@ -85,14 +83,17 @@ void BitcoinExchange::error(std::string error)
 
 bool    check_first_line(std::string firstLine)
 {
-    std::istringstream line(firstLine);
-    std::string         date_val[3];
+    std::stringstream line(firstLine);
+    std::string         date_val[5];
     int                 i = 0;
 
     while (std::getline(line, firstLine, ' '))
-        if (!firstLine.empty())
+    {
+        if (i < 3)
             date_val[i++] = firstLine;
-
+        else
+           BitcoinExchange::error("Error: first line filed or not correct!");
+    }
     if (i != 3 || !(date_val[0] == "date" && date_val[1] == "|" && date_val[2] == "value"))
         BitcoinExchange::error("Error: first line filed or not correct!");
     return (1);
@@ -128,7 +129,8 @@ bool checkYear(std::string yearMD)
     }
     catch(std::exception& e)
     {
-        BitcoinExchange::error("checking year error! " + (std::string)(e.what())); 
+        (void)e;
+        return false; 
     }
     if (date.size() < 3)
         return false;
@@ -156,7 +158,7 @@ void    BitcoinExchange::getDataVal(std::string date, float value)
     }
 }
 
-void    parssing_val(const char* str)
+bool    parssing_val(const char* str)
 {
     int points = 0;
     int fs     = 0;
@@ -170,8 +172,12 @@ void    parssing_val(const char* str)
 
         if ((!(str[i] >= '0' && str[i] <= '9') && str[i] != '.' && str[i] != 'f' && str[i] != ' '
             && str[i] != '-') || points > 1 || fs > 1 || minus > 1 || (str[i + 1] && str[i] == 'f'))
-            BitcoinExchange::error("parsing Error!");
+        {
+            std::cout << "bad input" << std::endl;
+            return (0);
+        }
     }
+    return (1);
 }
 
 void    BitcoinExchange::checkLine(std::string tmp)
@@ -191,11 +197,13 @@ void    BitcoinExchange::checkLine(std::string tmp)
         if (!(num >> dava_num)){
             (std::cout << "Error: bad input => " << dava[0] << std::endl);return;}
         float myFloat;
+
         try { myFloat = toFloat(dava[1]); }
         catch(std::exception& e)
-        { error("parssing error! " + (std::string)(e.what())); }
+        { std::cout << "bad input! " << e.what() << std::endl; return ;}
 
-        parssing_val(dava[1].c_str());
+        if (!parssing_val(dava[1].c_str()))
+            return;
         if (myFloat >= INT_MAX)
            std::cout << "Error: too large a number." << std::endl;
         else if (myFloat < 0)
@@ -223,6 +231,7 @@ void    BitcoinExchange::fill(std::string file)
     (std::getline(getInput, tmp)) && (check_first_line(tmp));
     while (std::getline(getInput, tmp))
         checkLine(tmp);
+    getInput.close();
 }
 
 BitcoinExchange::~BitcoinExchange(){}
