@@ -6,7 +6,7 @@
 /*   By: ychahbi <ychahbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 13:13:36 by ychahbi           #+#    #+#             */
-/*   Updated: 2024/02/17 12:48:39 by ychahbi          ###   ########.fr       */
+/*   Updated: 2024/02/17 21:38:11 by ychahbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <iostream>
 #include <vector>
 #include <list>
+#include <array>
 #include <sstream>
 #include <map>
 #include <limits.h>

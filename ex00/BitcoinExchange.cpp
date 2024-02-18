@@ -6,7 +6,7 @@
 /*   By: ychahbi <ychahbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 13:26:05 by ychahbi           #+#    #+#             */
-/*   Updated: 2024/02/17 15:00:53 by ychahbi          ###   ########.fr       */
+/*   Updated: 2024/02/18 08:28:17 by ychahbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ float BitcoinExchange::toFloat(const std::string& str) {
     return result;
 }
 
-void    BitcoinExchange::getDataFromDataCSV()
-{
+void    BitcoinExchange::getDataFromDataCSV() {
     std::ifstream DataCSV_v("data.csv");
     if (!DataCSV_v)
         BitcoinExchange::error("Filed to read database!");
@@ -46,13 +45,11 @@ void    BitcoinExchange::getDataFromDataCSV()
     }
 }
 
-BitcoinExchange::BitcoinExchange(const BitcoinExchange& Copy)
-{
+BitcoinExchange::BitcoinExchange(const BitcoinExchange& Copy) {
     *this = Copy;
 }
 
-BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange& Copy)
-{
+BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange& Copy) {
     std::map<std::string, float>::const_iterator iter = Copy.DataCSV.begin();
     for (; iter != Copy.DataCSV.end(); iter++)
     {
@@ -64,29 +61,27 @@ BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange& Copy)
     return (*this);
 }
 
-BitcoinExchange::BitcoinExchange()
-{
+BitcoinExchange::BitcoinExchange() {
     getDataFromDataCSV();
 }
 
-BitcoinExchange::BitcoinExchange(std::string file)
-{
+BitcoinExchange::BitcoinExchange(std::string file) {
     getDataFromDataCSV();
     fill(file);
 }
 
-void BitcoinExchange::error(std::string error)
-{
+void BitcoinExchange::error(std::string error) {
     std::cerr << error << std::endl;
     exit(1);
 }
 
-bool    check_first_line(std::string firstLine)
-{
+bool    check_first_line(std::string firstLine) {
     std::stringstream line(firstLine);
     std::string         date_val[5];
     int                 i = 0;
 
+    if (firstLine.size() > 12)
+        BitcoinExchange::error("Error: first line filed or not correct!");
     while (std::getline(line, firstLine, ' '))
     {
         if (i < 3)
@@ -118,8 +113,7 @@ bool dateVal(int year, int month, int day) {
     return true;
 }
 
-bool checkYear(std::string yearMD)
-{
+bool checkYear(std::string yearMD) {
     std::istringstream line(yearMD);
     std::list<int> date;
 
@@ -139,8 +133,7 @@ bool checkYear(std::string yearMD)
 }
 
 
-void    BitcoinExchange::getDataVal(std::string date, float value)
-{
+void    BitcoinExchange::getDataVal(std::string date, float value) {
     float value_from_date = -1;
     date.at(10) = '\0';
 
@@ -158,8 +151,7 @@ void    BitcoinExchange::getDataVal(std::string date, float value)
     }
 }
 
-bool    parssing_val(const char* str)
-{
+bool    parssing_val(const char* str) {
     int points = 0;
     int fs     = 0;
     int minus  = 0;
@@ -180,17 +172,34 @@ bool    parssing_val(const char* str)
     return (1);
 }
 
-void    BitcoinExchange::checkLine(std::string tmp)
+bool checkSpaces(const char *s)
 {
-    std::istringstream line(tmp);
-    std::deque<std::string> dava;
-    std::string              date[3];
+    int count = 0;
 
-    while (!tmp.empty() && std::getline(line, tmp, '|'))
-        dava.push_back(tmp);
-    if (dava.size() != 2)
+    for (int i = 0; s[i] != '\0'; i++)
+    {
+        (s[i] == ' ') && (count++);
+        if (count > 2)
+            return (false);
+    }
+    return (true);
+}
+
+void    BitcoinExchange::checkLine(std::string tmp) {
+    std::istringstream          line(tmp);
+    std::array<std::string, 5>  dava;
+    int                         index = 0;
+
+    if(checkSpaces(tmp.c_str()) == false)
+    {
         std::cout << "Error: bad input" << std::endl;
-    else if (dava.size() == 2)
+        return;
+    }
+    while (!tmp.empty() && std::getline(line, tmp, '|'))
+        dava[index++] = tmp;
+    if (index != 2)
+        std::cout << "Error: bad input" << std::endl;
+    else if (index == 2)
     {
         std::istringstream num(dava[1]);
         double dava_num;
@@ -220,15 +229,17 @@ void    BitcoinExchange::checkLine(std::string tmp)
         
 }
 
-void    BitcoinExchange::fill(std::string file)
-{
+void    BitcoinExchange::fill(std::string file) {
     std::ifstream getInput(file);
     std::string tmp;
 
     if (!getInput)
         error("Error: could not open file.");
 
-    (std::getline(getInput, tmp)) && (check_first_line(tmp));
+    if (std::getline(getInput, tmp))
+        (check_first_line(tmp));
+    else
+        std::cout << "The file is empty!" << std::endl;
     while (std::getline(getInput, tmp))
         checkLine(tmp);
     getInput.close();

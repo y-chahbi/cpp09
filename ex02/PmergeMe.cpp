@@ -6,7 +6,7 @@
 /*   By: ychahbi <ychahbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 10:59:09 by ychahbi           #+#    #+#             */
-/*   Updated: 2024/02/17 10:04:44 by ychahbi          ###   ########.fr       */
+/*   Updated: 2024/02/18 09:14:33 by ychahbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ void    PmergeMe::parssing()
                 error("Error in parssing!");
         }
     }
+    if (funkctro.empty())
+        error("try to insert some numbers!");
 }
 
 void    PmergeMe::fill_pair()
